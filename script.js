@@ -102,13 +102,17 @@ const displayController = (() => {
     playBtn2.addEventListener("click", (e) => {
         setGameDisplayWithAi();
         if (gameController.getIsOver()) return;
+        gameController.playAi();
         renderAiGameBoard();
     })
+
 
     return {displayTurnUpdate, displayWinnerText};
 })();
 
 const gameController = (() => {
+    const boardCellsAi = document.querySelectorAll(".board-cell-ai");
+    const aiCells = [...boardCellsAi];
     const playerOne = Player("playerOne", "X");
     const playerTwo = Player("playerTwo", "O");
     let isOver = false;
@@ -150,6 +154,72 @@ const gameController = (() => {
         })
     }
 
+    // Player vs AI code
+
+    // Get all remaining empty board cells
+    const getEmptyCells = () => {
+        return aiCells.filter((cell) => cell.innerHTML === "");
+    }
+
+    const generateRandomMove = (min, max) => Math.floor(Math.random() * (max - min) + min);
+
+    const playAi = () => {
+        aiCells.forEach((cell) => {
+            cell.addEventListener("click", () => {
+                if (currentPlayer() === "X" && cell.innerHTML === "" && getIsOver() === false) {
+                    cell.innerHTML = currentPlayer();
+                    turn++;
+                    if (currentPlayer() === "O" && getEmptyCells().length > 0 && getIsOver() === false) {
+                        if (checkWinnnerX()) {
+                            isOver = true;
+                            displayController.displayTurnUpdate("Player X wins!");
+                            return;
+                        }
+                        getEmptyCells()[generateRandomMove(0, getEmptyCells().length)].innerHTML = currentPlayer();
+                        turn++;
+                    }
+                }
+                if (checkWinnnerX()) {
+                    isOver = true;
+                    console.log(isOver);
+                    displayController.displayTurnUpdate("Player X wins!");
+                    return;
+                }
+                if (checkWinnnerO()) {
+                    isOver = true;
+                    displayController.displayTurnUpdate("Player O wins!");
+                    return;
+                }
+                if (isTie()) {
+                    displayController.displayTurnUpdate("It's a tie!");
+                } 
+            })
+        })
+    }
+    
+    const checkWinnnerX = () => {
+        return winConditions.some((condition) => {
+            return condition.every((index) => {
+                return aiCells[index].innerHTML === "X";
+            })
+        })
+    }
+
+    const checkWinnnerO = () => {
+        return winConditions.some((condition) => {
+            return condition.every((index) => {
+                return aiCells[index].innerHTML === "O";
+            })
+        })
+    }
+
+    const isTie = () => {
+        return aiCells.every((cell) => {
+            return cell.innerHTML === "X" || cell.innerHTML === "O";
+        })
+    }
+
+    // Utility functions 
     const currentPlayer = () => {
         return turn % 2 == 0 ? playerOne.sign : playerTwo.sign;
     }
@@ -163,5 +233,5 @@ const gameController = (() => {
         isOver = false;
     }
 
-    return {play, getIsOver, resetGame}
+    return {play, getIsOver, resetGame, playAi}
 })();
