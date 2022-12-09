@@ -90,6 +90,14 @@ const displayController = (() => {
         renderGameBoard();
     })
 
+    twoPlayerCells.forEach((cell) => {
+        cell.addEventListener("click", (e) => {
+            if (gameController.getIsOver() || e.target.innerHTML) return;
+            gameController.play(parseInt(e.target.dataset.index));
+            renderGameBoard();
+        })
+    })
+
     // Start Player vs AI mode
     playBtn2.addEventListener("click", (e) => {
         setGameDisplayWithAi();
@@ -117,11 +125,11 @@ const gameController = (() => {
         [2, 4, 6],
     ];
 
-    // Two Player code
+    // Player vs Player code
     const play = (boardIndex) => {
         gameBoard.addSign(boardIndex, currentPlayer());
         if (checkWinnner()) {
-            displayController.displayWinnerText(`Player ${currentPlayer()} wins!}`);
+            displayController.displayWinnerText(`Player ${currentPlayer()} wins!`);
             isOver = true;
             return;
         }
