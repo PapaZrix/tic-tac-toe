@@ -1,0 +1,100 @@
+:root {
+    --bg-color: #c5c3c6;
+    --bg-header: #4c5c68;
+    --bg-cell: #ededee;
+    --bg-cell-hover: #d8e4e9;
+    --bg-btn-hover: #3b4b57;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    min-height: 100%;
+}
+
+body {
+    font-family: "Varela Round", sans-serif;
+    background-color: var(--bg-color);
+}
+
+.header {
+    padding: 20px;
+    background-color: var(--bg-header);
+    border-bottom: 2px solid black;    
+}
+
+h1 {
+    color: white;
+    text-align: center;
+    font-size: 90px;
+}
+
+.main {
+    padding: 20px;
+}
+
+.play-game {
+    height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+
+.game-message {
+    font-size: 50px;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.game-board, .game-board-ai {
+    height: 450px;
+    width: 450px;
+    display: grid;
+    grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+    border: 2px solid black;
+    margin: 0px auto;
+}
+
+.board-cell, .board-cell-ai {
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 90px;
+    background-color: var(--bg-cell);
+    cursor: pointer;
+}
+
+.board-cell:hover, .board-cell-ai:hover {
+    background-color: var(--bg-cell-hover);
+}
+
+.game-restart {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    padding: 30px;
+    gap: 40px;
+}
+
+.restart-button, .play-button, .back {
+    padding: 10px 20px;
+    border: none;
+    font-size: 40px;
+    border-radius: 10px;
+    background-color: var(--bg-header);
+    color: white;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+}
+
+.restart-button:hover, .play-button:hover, .back:hover {
+    background-color: var(--bg-btn-hover);
+}
