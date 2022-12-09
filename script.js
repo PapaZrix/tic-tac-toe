@@ -24,7 +24,7 @@ const Player = (name, sign) => {
 }
 
 const displayController = (() => {
-    // DOM
+    // DOM elements
     const playBtn1 = document.querySelector(".two-btn");
     const playBtn2 = document.querySelector(".ai-btn");
     const gameBoard1 = document.querySelector(".game-board");
@@ -34,7 +34,7 @@ const displayController = (() => {
     const backBtn = document.querySelector(".back");
     const playGameDiv = document.querySelector(".play-game");
     const twoPlayerCells = document.querySelectorAll(".board-cell");
-    const boardCellsAi = document.querySelectorAll(".boad-cell-ai");
+    const boardCellsAi = document.querySelectorAll(".board-cell-ai");
 
     // Initial display > just the mode choice
     gameBoard1.style.display = "none";
@@ -90,6 +90,7 @@ const displayController = (() => {
         renderGameBoard();
     })
 
+    // Add signs to DOM board
     twoPlayerCells.forEach((cell) => {
         cell.addEventListener("click", (e) => {
             if (gameController.getIsOver() || e.target.innerHTML) return;
@@ -104,6 +105,28 @@ const displayController = (() => {
         if (gameController.getIsOver()) return;
         gameController.playAi();
         renderAiGameBoard();
+    })
+
+    restartBtn.addEventListener("click", (e) => {
+        gameBoard.resetBoard();
+        gameController.resetGame();
+        renderGameBoard();
+        renderAiGameBoard();
+        displayTurnUpdate("Player X turn");
+    })
+
+    backBtn.addEventListener("click", (e) => {
+        gameBoard1.style.display = "none";
+        gameBoard2.style.display = "none";
+        gameMessage.style.display = "none";
+        restartBtn.style.display = "none";
+        backBtn.style.display = "none";
+        playGameDiv.style.display = "flex";
+        gameBoard.resetBoard();
+        gameController.resetGame();
+        renderGameBoard();
+        renderAiGameBoard();
+        displayTurnUpdate("Player X turn");
     })
 
 
@@ -181,7 +204,6 @@ const gameController = (() => {
                 }
                 if (checkWinnnerX()) {
                     isOver = true;
-                    console.log(isOver);
                     displayController.displayTurnUpdate("Player X wins!");
                     return;
                 }
