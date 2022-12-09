@@ -24,6 +24,7 @@ const Player = (name, sign) => {
 }
 
 const displayController = (() => {
+    // DOM
     const playBtn1 = document.querySelector(".two-btn");
     const playBtn2 = document.querySelector(".ai-btn");
     const gameBoard1 = document.querySelector(".game-board");
@@ -82,9 +83,77 @@ const displayController = (() => {
         gameMessage.textContent = message;
     }
 
+    // Start Player vs Player mode
+    playBtn1.addEventListener("click", (e) => {
+        setGameDisplayTwoPlayers();
+        if (gameController.getIsOver()) return;
+        renderGameBoard();
+    })
+
+    // Start Player vs AI mode
+    playBtn2.addEventListener("click", (e) => {
+        setGameDisplayWithAi();
+        if (gameController.getIsOver()) return;
+        renderAiGameBoard();
+    })
+
     return {displayTurnUpdate, displayWinnerText};
 })();
 
 const gameController = (() => {
+    const playerOne = Player("playerOne", "X");
+    const playerTwo = Player("playerTwo", "O");
+    let isOver = false;
+    let turn = 0;
+    const maxTurns = 8;
+    const winConditions = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6],
+    ];
 
+    // Two Player code
+    const play = (boardIndex) => {
+        gameBoard.addSign(boardIndex, currentPlayer());
+        if (checkWinnner()) {
+            displayController.displayWinnerText(`Player ${currentPlayer()} wins!}`);
+            isOver = true;
+            return;
+        }
+        if (turn == maxTurns) {
+            displayController.displayWinnerText(`It's a draw!`);
+            isOver  = true;
+            return;
+        }
+        turn++;
+        displayController.displayTurnUpdate(`Player ${currentPlayer()} turn`);
+    }
+
+    const checkWinnner = () => {
+        return winConditions.some((condition) => {
+            return condition.every((index) => {
+                return gameBoard.getBoardCell(index) === currentPlayer();
+            })
+        })
+    }
+
+    const currentPlayer = () => {
+        return turn % 2 == 0 ? playerOne.sign : playerTwo.sign;
+    }
+
+    const getIsOver = () => {
+        return isOver; 
+    }
+
+    const resetGame = () => {
+        turn = 0;
+        isOver = false;
+    }
+
+    return {play, getIsOver, resetGame}
 })();
