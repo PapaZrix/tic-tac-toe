@@ -98,3 +98,48 @@ h1 {
 .restart-button:hover, .play-button:hover, .back:hover {
     background-color: var(--bg-btn-hover);
 }
+
+/* MEDIA QUERIES */
+
+@media (max-width: 660px) {
+        h1 {
+            font-size: 60px;
+        }
+
+        .game-message {
+            font-size: 40px;
+        }
+
+        .restart-button, .back {
+            font-size: 40px;
+        }
+
+        .game-board, .game-board-ai {
+            width: 304px;
+            height: 304px;
+        }
+
+        .board-cell, .board-cell-ai {
+            width: 100px;
+            height: 100px;
+            font-size: 70px;
+        }
+        }
+
+        @media (max-width: 420px) {
+        h1 {
+            font-size: 50px;
+        }
+
+        .game-message {
+            font-size: 36px;
+        }
+
+        .play-button {
+            font-size: 32px;
+        }
+
+        .restart-button, .back {
+            font-size: 24px;
+        }
+        }
