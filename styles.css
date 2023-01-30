@@ -13,7 +13,7 @@
 }
 
 html {
-    min-height: 100%;
+    min-height: 100vh;
 }
 
 body {
@@ -22,7 +22,7 @@ body {
 }
 
 .header {
-    padding: 20px;
+    padding: 5px;
     background-color: var(--bg-header);
     border-bottom: 2px solid black;    
 }
@@ -30,15 +30,19 @@ body {
 h1 {
     color: white;
     text-align: center;
-    font-size: 90px;
+    font-size: 80px;
 }
 
 .main {
-    padding: 20px;
+    padding: 5px;
+    height: calc(100vh - 108px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
 .play-game {
-    height: 70vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -46,14 +50,14 @@ h1 {
 }
 
 .game-message {
-    font-size: 50px;
+    font-size: 40px;
     text-align: center;
     margin-top: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .game-board, .game-board-ai {
-    height: 450px;
+    height: 350px;
     width: 450px;
     display: grid;
     grid-template: repeat(3, 1fr) / repeat(3, 1fr);
@@ -86,13 +90,17 @@ h1 {
 .restart-button, .play-button, .back {
     padding: 10px 20px;
     border: none;
-    font-size: 40px;
+    font-size: 30px;
     border-radius: 10px;
     background-color: var(--bg-header);
     color: white;
     cursor: pointer;
     align-items: center;
     justify-content: center;
+}
+
+.play-button {
+    font-size: 40px;
 }
 
 .restart-button:hover, .play-button:hover, .back:hover {
@@ -119,16 +127,30 @@ h1 {
             height: 304px;
         }
 
-        .board-cell, .board-cell-ai {
-            width: 100px;
+}
+
+@media (max-width: 420px) {
+        .header {
+            padding: 15px;
             height: 100px;
-            font-size: 70px;
-        }
         }
 
-        @media (max-width: 420px) {
+        .main {
+            height: calc(100vh - 100px);
+        }
+        
+        .game-board, .game-board-ai {
+            width: 330px;
+            height: 330px;
+        }
+
+
         h1 {
             font-size: 50px;
+        }
+
+        .play-game {
+            flex-direction: column;
         }
 
         .game-message {
@@ -142,4 +164,4 @@ h1 {
         .restart-button, .back {
             font-size: 24px;
         }
-        }
+}
